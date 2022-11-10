@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Nhom03.Models.Hoadon>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mahoadon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Taikhoan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ngaylap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diachinhan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sdtnhan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tongcong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trangthai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mahoadon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Taikhoan.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ngaylap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diachinhan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sdtnhan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tongcong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trangthai)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

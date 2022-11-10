@@ -14,7 +14,8 @@ namespace Nhom03.Models
         public bool Quanly { get; set; } = true;
         public string Hinhanh { get; set; }
         public bool Trangthai { get; set; } = true;
-
+      public List<Hoadon>Hoadons { get; set; }
+       public List<Giohang>Giohangs { get; set; }
 
     }
 }

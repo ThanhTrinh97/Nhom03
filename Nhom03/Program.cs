@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Nhom03.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<Nhom03Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Nhom03Context") ?? throw new InvalidOperationException("Connection string 'Nhom03Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
