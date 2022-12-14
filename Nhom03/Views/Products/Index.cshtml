@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Nhom03.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="contain-khungSanPham">
+	<div class="khungSanPham">
+		
+		<div class="listSpTrongKhung flexContain">
+
+			@foreach (var item in Model)
+			{
+
+				<li class="sanPham">
+					<a asp-action="Details" asp-route-id="@item.Id">
+						<img src="~/img/products/@item.Image" alt="">
+						<h3>@Html.DisplayFor(model => item.Name)</h3>
+						<div class="price">
+							@Html.DisplayFor(model => item.Price)
+						</div>
+						<div class="ratingresult">
+							<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>9999 đánh giá</span>
+						</div>
+						<div class="tooltip">
+							<button class="themvaogio">
+								<span class="tooltiptext" style="font-size: 15px;">Thêm vào giỏ</span>
+								+
+							</button>
+						</div>
+					</a>
+				</li>
+			}
+		</div>
+	</div>
+</div>

@@ -2,8 +2,39 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Home\1zp11rbl.jlo~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\admin.js" />
+    <None Include="wwwroot\js\chitietsanpham.js" />
+    <None Include="wwwroot\js\dungchung.js" />
+    <None Include="wwwroot\js\giohang.js" />
+    <None Include="wwwroot\js\lienhe.js" />
+    <None Include="wwwroot\js\nguoidung.js" />
+    <None Include="wwwroot\js\trangchu.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\.DS_Store" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\js\.DS_Store" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\js\ion-rangeSlider\ion.rangeSlider.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\js\ion-rangeSlider\ion.rangeSlider.min.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\js\vendor\jquery-1.12.3.min.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider-2.2.0\PSD\sprite-skin.psd" />
+    <None Include="wwwroot\lib\Jquery\Jquery.min.js" />
+    <None Include="wwwroot\lib\owlcarousel\owl.carousel.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+  </ItemGroup>
 
 </Project>

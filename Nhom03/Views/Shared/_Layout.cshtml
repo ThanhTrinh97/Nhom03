@@ -1,46 +1,164 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Nhom03</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Nhom03.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thế giới điện thoại</title>
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <!-- Load font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous">
+
+    <!-- Jquery -->
+    <script src="lib/Jquery/Jquery.min.js"></script>
+
+    <!-- owl carousel libraries -->
+    <link rel="stylesheet" href="lib/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="lib/owlcarousel/owl.theme.default.min.css">
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    <!-- Slider -->
+    <link rel="stylesheet" href="lib/ion.rangeSlider-2.2.0/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="lib/ion.rangeSlider-2.2.0/css/ion.rangeSlider.skinHTML5.css">
+    <script src="lib/ion.rangeSlider-2.2.0/js/ion-rangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- our files -->
+    <!-- css -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/topnav.css">
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/banner.css">
+    <link rel="stylesheet" href="~/css/taikhoan.css">
+    <link rel="stylesheet" href="~/css/trangchu.css">
+    <link rel="stylesheet" href="~/css/home_products.css">
+    <link rel="stylesheet" href="~/css/chitietsanpham.css" />
+    <link rel="stylesheet" href="~/css/pagination_phantrang.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/tintuc.css">
+    <link rel="stylesheet" href="~/css/tuyendung.css">
+    <link rel="stylesheet" href="~/css/gioithieu.css">
+    <link rel="stylesheet" href="~/css/baohanh.css">
+    <link rel="stylesheet" href="~/css/lienhe.css">
+    <link rel="stylesheet" href="~/css/styles.css"/>
+    <!-- js -->
+    <script src="~/js/trangchu.js"></script>
+    <script src="~/js/dungchung.js"></script>
+    <script src="~/js/lienhe.js"></script>
+    <script src="~/js/slider.js"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nhom03</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        <div class="top-nav group">
+            <section>
+                <div class="social-top-nav">
+                    <a class="fa fa-facebook"></a>
+                    <a class="fa fa-twitter"></a>
+                    <a class="fa fa-google"></a>
+                    <a class="fa fa-youtube"></a>
+                </div> <!-- End Social Topnav -->
 
+                <ul class="top-nav-quicklink flexContain">
+                    <li><a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Trang chủ</a></li>
+                    <li><a asp-controller="News" asp-action="Index"><i class="fa fa-newspaper-o"></i> Tin tức</a></li>
+                    <li><a asp-controller="Recruits" asp-action="Index"><i class="fa fa-handshake-o"></i> Tuyển dụng</a></li>
+                    <li><a asp-controller="Introduces" asp-action="Index"><i class="fa fa-info-circle"></i> Giới thiệu</a></li>
+                    <li><a asp-controller="ServiceCenter" asp-action="Index"><i class="fa fa-wrench"></i> Bảo hành</a></li>
+                    <li><a asp-controller="Contacts" asp-action="Index"><i class="fa fa-phone"></i> Liên hệ</a></li>
+                </ul> <!-- End Quick link -->
+            </section><!-- End Section -->
+        </div><!-- End Top Nav  -->
+
+    </header>
+    <section>
+        <div class="header group">
+            <div class="logo">
+                <a href="#">
+                    <img src="img/logo.jpg" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
+                </a>
+            </div> <!-- End Logo -->
+
+            <div class="content">
+                <div class="search-header">
+                    <form class="input-search" method="get" action="index.html">
+                        <div class="autocomplete">
+                            <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm...">
+                            <button type="submit">
+                                <i class="fa fa-search"></i>
+                                Tìm kiếm
+                            </button>
+                        </div>
+                    </form> <!-- End Form search -->
+
+                </div> <!-- End Search header -->
+
+                <div class="tools-member">
+                    <div class="member">
+                        <a onclick="checkTaiKhoan()">
+                            <i class="fa fa-user"></i>
+                            Tài khoản
+                        </a>
+                        <div class="menuMember hide">
+                            <a href="nguoidung.html">Trang người dùng</a>
+                            <a onclick="if(window.confirm('Xác nhận đăng xuất ?')) logOut();">Đăng xuất</a>
+                        </div>
+
+                    </div> <!-- End Member -->
+
+                    <div class="cart">
+                        <a a asp-controller="Carts" asp-action="Index">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Giỏ hàng</span>
+                            <span class="cart-number"></span>
+                        </a>
+                    </div> <!-- End Cart -->
+                    <!--<div class="check-order">
+                        <a>
+                            <i class="fa fa-truck"></i>
+                            <span>Đơn hàng</span>
+                        </a>
+                    </div> -->
+                </div><!-- End Tools Member -->
+            </div> <!-- End Content -->
+        </div> <!-- End Header -->
+        @RenderBody()
+    </section>
+    <script>
+        addContainTaiKhoan();
+    </script>
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Nhom03 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="plc">
+            <section>
+                <ul class="flexContain">
+                    <li>Giao hàng hỏa tốc trong 1 giờ</li>
+                    <li>Thanh toán linh hoạt: tiền mặt, visa / master, trả góp</li>
+                    <li>Trải nghiệm sản phẩm tại nhà</li>
+                    <li>Lỗi đổi tại nhà trong 1 ngày</li>
+                    <li>
+                        Hỗ trợ suốt thời gian sử dụng.
+                        <br>Hotline:
+                        <a href="tel:12345678" style="color: #288ad6;">1234.5678</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <!-- ============== Alert Box ============= -->
+        <div id="alert">
+            <span id="closebtn">&otimes;</span>
+        </div>
+
+        <!-- ============== Footer ============= -->
+        <div class="copy-right">
+            <p>
+                <a href="index.html">SmartPhone Store</a> - All rights reserved © 2018 - Designed by
+                <span style="color: #eee; font-weight: bold">H-group</span>
+            </p>
         </div>
     </footer>
+    <i class="fa fa-arrow-up" id="goto-top-page" onclick="gotoTop()"></i>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

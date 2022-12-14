@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Nhom03.Data;
 using Nhom03.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,20 @@ namespace Nhom03.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+		private Nhom03Context _context;
+		private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Nhom03Context context)
         {
+    
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var products = _context.Products.ToList().Where(p => p.Id <= 5);
+            return View(products);
         }
 
         public IActionResult Privacy()
