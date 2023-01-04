@@ -13,8 +13,8 @@
 			{
 
 				<li class="sanPham">
-					<a asp-action="Details" asp-route-id="@item.Id">
-						<img src="~/img/products/@item.Image" alt="">
+					<a asp-controller="ProductDetails" asp-action="Details" asp-route-id="@item.Id">
+						<img src="~/img/products/@item.Image" alt="Image">
 						<h3>@Html.DisplayFor(model => item.Name)</h3>
 						<div class="price">
 							@Html.DisplayFor(model => item.Price)
@@ -23,7 +23,7 @@
 							<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><span>9999 đánh giá</span>
 						</div>
 						<div class="tooltip">
-							<button class="themvaogio">
+							<button class="themvaogio" asp-controller="Carts" asp-action="Add" asp-route-ProductId="@item.Id" asp-route-Quantity="1">
 								<span class="tooltiptext" style="font-size: 15px;">Thêm vào giỏ</span>
 								+
 							</button>

@@ -28,6 +28,7 @@
 
     <!-- our files -->
     <!-- css -->
+    <link rel="stylesheet" href="~/css/silders.css">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/topnav.css">
     <link rel="stylesheet" href="~/css/header.css">
@@ -43,12 +44,12 @@
     <link rel="stylesheet" href="~/css/gioithieu.css">
     <link rel="stylesheet" href="~/css/baohanh.css">
     <link rel="stylesheet" href="~/css/lienhe.css">
-    <link rel="stylesheet" href="~/css/styles.css"/>
+    
     <!-- js -->
     <script src="~/js/trangchu.js"></script>
     <script src="~/js/dungchung.js"></script>
     <script src="~/js/lienhe.js"></script>
-    <script src="~/js/slider.js"></script>
+    @*<script src="~/js/slider.js"></script>*@
 </head>
 <body>
     <header>
@@ -76,8 +77,8 @@
     <section>
         <div class="header group">
             <div class="logo">
-                <a href="#">
-                    <img src="img/logo.jpg" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/img/logo.jpg" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
                 </a>
             </div> <!-- End Logo -->
 
@@ -97,7 +98,7 @@
 
                 <div class="tools-member">
                     <div class="member">
-                        <a onclick="checkTaiKhoan()">
+                        <a asp-controller="Accounts" asp-action="Login">
                             <i class="fa fa-user"></i>
                             Tài khoản
                         </a>
@@ -126,9 +127,7 @@
         </div> <!-- End Header -->
         @RenderBody()
     </section>
-    <script>
-        addContainTaiKhoan();
-    </script>
+    
     <footer class="border-top footer text-muted">
         <div class="plc">
             <section>
@@ -159,6 +158,7 @@
         </div>
     </footer>
     <i class="fa fa-arrow-up" id="goto-top-page" onclick="gotoTop()"></i>
+    <script src="~/js/slider.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

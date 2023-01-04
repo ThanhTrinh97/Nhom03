@@ -5,92 +5,95 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Eshop.Models;
 using Nhom03.Data;
-using Nhom03.Models;
 
 namespace Nhom03.Controllers
 {
-    public class AccountsController : Controller
+    public class ProductDetailsController : Controller
     {
         private readonly Nhom03Context _context;
 
-        public AccountsController(Nhom03Context context)
+        public ProductDetailsController(Nhom03Context context)
         {
-            
             _context = context;
         }
 
-        // GET: Accounts
+        // GET: ProductDetails
         public async Task<IActionResult> Index()
         {
-            ViewBag.Username = HttpContext.Request.Cookies["username"];
-            return View(await _context.Accounts.ToListAsync());
+            var nhom03Context = _context.ProductDetails.Include(p => p.Product);
+            return View(await nhom03Context.ToListAsync());
         }
 
-        // GET: Accounts/Details/5
+        // GET: ProductDetails/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Accounts == null)
+            if (id == null || _context.ProductDetails == null)
             {
                 return NotFound();
             }
 
-            var account = await _context.Accounts
+            var productDetail = await _context.ProductDetails
+                .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (account == null)
+            if (productDetail == null)
             {
                 return NotFound();
             }
 
-            return View(account);
+            return View(productDetail);
         }
 
-        // GET: Accounts/Create
+        // GET: ProductDetails/Create
         public IActionResult Create()
         {
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }
 
-        // POST: Accounts/Create
+        // POST: ProductDetails/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,Phone,Address,FullName,IsAdmin,Avatar,Status")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,Color,Screen,Operatingsystem,Room,Frontcamera,Chip,Ram,Internalmemory,Sim,Rechargeablebatteries,ProductId")] ProductDetail productDetail)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(account);
+                _context.Add(productDetail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(account);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", productDetail.ProductId);
+            return View(productDetail);
         }
 
-        // GET: Accounts/Edit/5
+        // GET: ProductDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Accounts == null)
+            if (id == null || _context.ProductDetails == null)
             {
                 return NotFound();
             }
 
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
+            var productDetail = await _context.ProductDetails.FindAsync(id);
+            if (productDetail == null)
             {
                 return NotFound();
             }
-            return View(account);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", productDetail.ProductId);
+            return View(productDetail);
         }
 
-        // POST: Accounts/Edit/5
+        // POST: ProductDetails/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,Email,Phone,Address,FullName,IsAdmin,Avatar,Status")] Account account)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Color,Screen,Operatingsystem,Room,Frontcamera,Chip,Ram,Internalmemory,Sim,Rechargeablebatteries,ProductId")] ProductDetail productDetail)
         {
-            if (id != account.Id)
+            if (id != productDetail.Id)
             {
                 return NotFound();
             }
@@ -99,12 +102,12 @@ namespace Nhom03.Controllers
             {
                 try
                 {
-                    _context.Update(account);
+                    _context.Update(productDetail);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccountExists(account.Id))
+                    if (!ProductDetailExists(productDetail.Id))
                     {
                         return NotFound();
                     }
@@ -115,72 +118,51 @@ namespace Nhom03.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(account);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", productDetail.ProductId);
+            return View(productDetail);
         }
 
-        // GET: Accounts/Delete/5
+        // GET: ProductDetails/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Accounts == null)
+            if (id == null || _context.ProductDetails == null)
             {
                 return NotFound();
             }
 
-            var account = await _context.Accounts
+            var productDetail = await _context.ProductDetails
+                .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (account == null)
+            if (productDetail == null)
             {
                 return NotFound();
             }
 
-            return View(account);
+            return View(productDetail);
         }
 
-        // POST: Accounts/Delete/5
+        // POST: ProductDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Accounts == null)
+            if (_context.ProductDetails == null)
             {
-                return Problem("Entity set 'Nhom03Context.Account'  is null.");
+                return Problem("Entity set 'Nhom03Context.ProductDetails'  is null.");
             }
-            var account = await _context.Accounts.FindAsync(id);
-            if (account != null)
+            var productDetail = await _context.ProductDetails.FindAsync(id);
+            if (productDetail != null)
             {
-                _context.Accounts.Remove(account);
+                _context.ProductDetails.Remove(productDetail);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        
-        public IActionResult Login()
+        private bool ProductDetailExists(int id)
         {
-            return View();
+          return _context.ProductDetails.Any(e => e.Id == id);
         }
-
-        [HttpPost]
-        public IActionResult Login(string Username, string Password)
-        {
-            var acc = _context.Accounts.FirstOrDefault(a => a.Username == Username && a.Password == Password);
-            if (acc != null)
-            {
-                HttpContext.Session.SetString("username", Username);
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.ErrorMsg = "Dang Nhap That Bai";
-                return View();
-            }
-        }
-        private bool AccountExists(int id)
-        {
-            return _context.Accounts.Any(e => e.Id == id);
-        }
-
-
     }
 }

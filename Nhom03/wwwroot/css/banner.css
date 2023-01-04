@@ -1,6 +1,6 @@
 
 /* Banner */
-	.banner {
+	/*.banner {
 		background: #f5f5f5;
 		padding-top:  10px;
 		border-bottom: 1px solid #e1e1e1;
@@ -12,7 +12,7 @@
         	float: none;
         	width: 100%;
 		}
-	}
+	}*/
 /* ======= End Banner ======== */
 .slideshow {
 	position: relative;

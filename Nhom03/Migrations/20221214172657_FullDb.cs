@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Nhom03.Migrations
 {
-    public partial class DB : Migration
+    public partial class FullDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

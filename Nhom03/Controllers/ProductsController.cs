@@ -25,7 +25,7 @@ namespace Nhom03.Controllers
             var nhom03Context = _context.Products.Include(p => p.ProductType);
             return View(await nhom03Context.ToListAsync());
         }
-
+        
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -164,10 +164,10 @@ namespace Nhom03.Controllers
         {
           return _context.Products.Any(e => e.Id == id);
         }
-		public async Task<IActionResult> Product()
-		{
-			var nhom03Context = _context.Products.Include(p => p.ProductType);
-			return View("home", "Index");
-		}
-	}
+        public async Task<IActionResult> ProductDetai()
+        {
+            var nhom03Context = _context.ProductDetails.Include(p => p.ProductId);
+            return View(await nhom03Context.ToListAsync());
+        }
+    }
 }
