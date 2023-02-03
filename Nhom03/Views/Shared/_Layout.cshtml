@@ -84,7 +84,7 @@
 
             <div class="content">
                 <div class="search-header">
-                    <form class="input-search" method="get" action="index.html">
+                    <form class="input-search" asp-controller="Products" asp-action="Search">
                         <div class="autocomplete">
                             <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm...">
                             <button type="submit">
@@ -95,34 +95,65 @@
                     </form> <!-- End Form search -->
 
                 </div> <!-- End Search header -->
+                @{
+                    if(ViewBag.name != null)
+                    {
+                        <div class="tools-member">
+                            <div class="member">
+                                <span class="text-muted px-2">&nbsp @ViewBag.name </span>
+                                <a asp-area="" asp-controller="Accounts" asp-action="Logout" class="text-dark" onclick="if(window.confirm('Xác nhận đăng xuất ?'))">Đăng xuất</a>
+                            </div> <!-- End Member -->
+                            <a asp-area="" asp-controller="Carts" asp-action="">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Giỏ hàng</span>
+                                <span class="cart-number"></span>
+                            </a>
+                            <div class="cart">
+                                
+                            </div> <!-- End Cart -->
+                            <!--<div class="check-order">
+                                <a>
+                                    <i class="fa fa-truck"></i>
+                                    <span>Đơn hàng</span>
+                                </a>
+                            </div> -->
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tools-member">
+                            <div class="member">
+                                <a asp-controller="Accounts" asp-action="Login">
+                                    <i class="fa fa-user"></i>
+                                    Tài khoản
+                                </a>
+                                <div class="menuMember hide">
+                                    <a href="nguoidung.html">Trang người dùng</a>
+                                    <a onclick="if(window.confirm('Xác nhận đăng xuất ?')) logOut();">Đăng xuất</a>
+                                </div>
 
-                <div class="tools-member">
-                    <div class="member">
-                        <a asp-controller="Accounts" asp-action="Login">
-                            <i class="fa fa-user"></i>
-                            Tài khoản
-                        </a>
-                        <div class="menuMember hide">
-                            <a href="nguoidung.html">Trang người dùng</a>
-                            <a onclick="if(window.confirm('Xác nhận đăng xuất ?')) logOut();">Đăng xuất</a>
+                            </div> <!-- End Member -->
+
+                            <div class="cart">
+                                <a asp-area="" asp-controller="Accounts" asp-action="Login">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Giỏ hàng</span>
+                                    <span class="cart-number"></span>
+                                </a>
+                            </div> <!-- End Cart -->
+                            <!--<div class="check-order">
+                                <a>
+                                    <i class="fa fa-truck"></i>
+                                    <span>Đơn hàng</span>
+                                </a>
+                            </div> -->
                         </div>
 
-                    </div> <!-- End Member -->
-
-                    <div class="cart">
-                        <a a asp-controller="Carts" asp-action="Index">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>Giỏ hàng</span>
-                            <span class="cart-number"></span>
-                        </a>
-                    </div> <!-- End Cart -->
-                    <!--<div class="check-order">
-                        <a>
-                            <i class="fa fa-truck"></i>
-                            <span>Đơn hàng</span>
-                        </a>
-                    </div> -->
-                </div><!-- End Tools Member -->
+                        <!-- End Tools Member -->
+                    }
+                }
+               
+                
             </div> <!-- End Content -->
         </div> <!-- End Header -->
         @RenderBody()

@@ -8,96 +8,88 @@ using Microsoft.EntityFrameworkCore;
 using Nhom03.Data;
 using Nhom03.Models;
 
-namespace Nhom03.Views
+namespace Nhom03.Areas.Admin.Controllers
 {
-    public class CartsController : Controller
+    [Area("Admin")]
+    public class ProductTypesController : Controller
     {
         private readonly Nhom03Context _context;
 
-        public CartsController(Nhom03Context context)
+        public ProductTypesController(Nhom03Context context)
         {
             _context = context;
         }
 
-        // GET: Carts
+        // GET: Admin/ProductTypes
         public async Task<IActionResult> Index()
         {
-            var nhom03Context = _context.Carts.Include(c => c.Account).Include(c => c.Product);
-            return View(await nhom03Context.ToListAsync());
+              return View(await _context.ProductTypes.ToListAsync());
         }
 
-        // GET: Carts/Details/5
+        // GET: Admin/ProductTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Carts == null)
+            if (id == null || _context.ProductTypes == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Carts
-                .Include(c => c.Account)
-                .Include(c => c.Product)
+            var productTypes = await _context.ProductTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            if (productTypes == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
+            return View(productTypes);
         }
 
-        // GET: Carts/Create
+        // GET: Admin/ProductTypes/Create
         public IActionResult Create()
         {
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Username");
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }
 
-        // POST: Carts/Create
+        // POST: Admin/ProductTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountId,ProductId,Quantity")] Cart cart)
+        public async Task<IActionResult> Create([Bind("Id,Name,Status")] ProductType productTypes)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cart);
+                _context.Add(productTypes);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Username", cart.AccountId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", cart.ProductId);
-            return View(cart);
+            return View(productTypes);
         }
 
-        // GET: Carts/Edit/5
+        // GET: Admin/ProductTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Carts == null)
+            if (id == null || _context.ProductTypes == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
+            var productTypes = await _context.ProductTypes.FindAsync(id);
+            if (productTypes == null)
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Username", cart.AccountId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", cart.ProductId);
-            return View(cart);
+            return View(productTypes);
         }
 
-        // POST: Carts/Edit/5
+        // POST: Admin/ProductTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AccountId,ProductId,Quantity")] Cart cart)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status")] ProductType productTypes)
         {
-            if (id != cart.Id)
+            if (id != productTypes.Id)
             {
                 return NotFound();
             }
@@ -106,12 +98,12 @@ namespace Nhom03.Views
             {
                 try
                 {
-                    _context.Update(cart);
+                    _context.Update(productTypes);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CartExists(cart.Id))
+                    if (!ProductTypesExists(productTypes.Id))
                     {
                         return NotFound();
                     }
@@ -122,53 +114,50 @@ namespace Nhom03.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Username", cart.AccountId);
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", cart.ProductId);
-            return View(cart);
+            return View(productTypes);
         }
 
-        // GET: Carts/Delete/5
+        // GET: Admin/ProductTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Carts == null)
+            if (id == null || _context.ProductTypes == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Carts
-                .Include(c => c.Account)
-                .Include(c => c.Product)
+            var productTypes = await _context.ProductTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            if (productTypes == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
+            return View(productTypes);
         }
 
-        // POST: Carts/Delete/5
+        // POST: Admin/ProductTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Carts == null)
+            if (_context.ProductTypes == null)
             {
-                return Problem("Entity set 'Nhom03Context.Carts'  is null.");
+                return Problem("Entity set 'Trang_AdminContext.ProductTypes'  is null.");
             }
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart != null)
+            var productTypes = await _context.ProductTypes.FindAsync(id);
+            if (productTypes != null)
             {
-                _context.Carts.Remove(cart);
+                _context.ProductTypes.Remove(productTypes);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CartExists(int id)
+        private bool ProductTypesExists(int id)
         {
-          return _context.Carts.Any(e => e.Id == id);
+          return _context.ProductTypes.Any(e => e.Id == id);
+
         }
     }
 }

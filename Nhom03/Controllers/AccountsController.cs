@@ -60,6 +60,7 @@ namespace Nhom03.Controllers
         {
             if (ModelState.IsValid)
             {
+                account.IsAdmin = false;
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -167,15 +168,36 @@ namespace Nhom03.Controllers
             var acc = _context.Accounts.FirstOrDefault(a => a.Username == Username && a.Password == Password);
             if (acc != null)
             {
+                var id = acc.Id;
+                var fullname = acc.FullName;
+                var avatar = acc.Avatar;
+                var checkLogin = 1;
+                HttpContext.Session.SetInt32("checkLogin", checkLogin);
+                HttpContext.Session.SetInt32("id", id);
+                HttpContext.Session.SetString("fullname", fullname);
+                HttpContext.Session.SetString("avatar", avatar);
                 HttpContext.Session.SetString("username", Username);
-                return RedirectToAction("Index", "Home");
+                if (acc.IsAdmin == true)
+                {
+                    return RedirectToAction("Home", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
-                ViewBag.ErrorMsg = "Dang Nhap That Bai";
+                ViewBag.ErrorMsg = "Đăng nhập thất bại!";
                 return View();
             }
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+
         private bool AccountExists(int id)
         {
             return _context.Accounts.Any(e => e.Id == id);

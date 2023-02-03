@@ -19,6 +19,8 @@ namespace Nhom03.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.name = HttpContext.Session.GetString("fullname");
             var products = _context.Products.ToList().Where(p => p.Id <= 5);
             return View(products);
         }

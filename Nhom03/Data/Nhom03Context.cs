@@ -15,13 +15,13 @@ namespace Nhom03.Data
         {
         }
 
-        public DbSet<Account> Accounts { get; set; } = default!;
-		public DbSet<Cart> Carts { get; set; } = default!;
-		public DbSet<Invoice> Invoices { get; set; } = default!;
-		public DbSet<InvoiceDetail> InvoiceDetails { get; set; } = default!;
-		public DbSet<Product> Products { get; set; } = default!;
-		public DbSet<ProductType> ProductTypes { get; set; } = default!;
-        public DbSet<ProductDetail> ProductDetails { get; set; } = default!;
-        public DbSet<Comment> Comments { get; set; } = default!;
+        public DbSet<Account> Accounts { get; set; }
+		public DbSet<Cart> Carts { get; set; }
+		public DbSet<Invoice> Invoices { get; set; }
+		public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductDetail> ProductDetails { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

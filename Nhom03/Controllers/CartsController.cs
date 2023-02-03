@@ -20,12 +20,13 @@ namespace Nhom03.Controllers
         }
 
         // GET: Carts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string username)
         {
-            string username = "thanh";
-            var nhom03Context = _context.Carts.Include(c => c.Account)
-                                                .Include(c => c.Product)
-                                                .Where(c => c.Account.Username == username);
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.user = HttpContext.Session.GetString("username");
+            username = ViewBag.user;
+            ViewBag.name = HttpContext.Session.GetString("fullname");
+            var nhom03Context = _context.Carts.Include(c => c.Account).Include(c => c.Product);
             return View(await nhom03Context.ToListAsync());
         }
 
@@ -64,6 +65,8 @@ namespace Nhom03.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,AccountId,ProductId,Quantity")] Cart cart)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.user = HttpContext.Session.GetString("username");
             if (ModelState.IsValid)
             {
                 _context.Add(cart);
@@ -169,9 +172,11 @@ namespace Nhom03.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
-        public IActionResult DeleteAll()
+        public IActionResult DeleteAll(string username)
         {
-            string username = "thanh";
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.user = HttpContext.Session.GetString("username");
+            username = ViewBag.user;
             var carts = _context.Carts.Include(c => c.Account)
                           .Include(c => c.Product)
                           .Where(c => c.Account.Username == username);
@@ -182,36 +187,97 @@ namespace Nhom03.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public IActionResult Add(int ProductId, int Quantity)
+        public IActionResult Purchase()
         {
-            string username = "thanh";
-            var accountId = _context.Accounts.FirstOrDefault(a => a.Username == username).Id;
+            return View();
+        }
 
-            var cart = _context.Carts.Where(c => c.AccountId == accountId && c.ProductId == ProductId).FirstOrDefault();
-            if(cart != null)
+        [HttpPost]
+        public IActionResult Purchase(string ShippingAddress, string ShippingPhone, string username)
+        {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.user = HttpContext.Session.GetString("username");
+            username = ViewBag.user;
+
+            var carts = _context.Carts.Include(c => c.Account)
+                                      .Include(c => c.Product)
+                                      .Where(c => c.Account.Username == username);
+
+            var accountId = _context.Accounts.FirstOrDefault(a => a.Username == username).Id;
+            var total = carts.Sum(c => c.Product.Price * c.Quantity);
+
+            Invoice invoice = new Invoice
             {
-                cart.Quantity += Quantity;
-                _context.Carts.Update(cart);
+                Code = DateTime.Now.ToString("yyyyMMddhhmmss"),
+                AccountId = accountId,
+                IssuedDate = DateTime.Now,
+                ShippingAddress = ShippingAddress,
+                ShippingPhone = ShippingPhone,
+                Total = total,
+                Status = true
+            };
+            _context.Invoices.Add(invoice);
+            _context.SaveChanges();
+
+            foreach (var item in carts)
+            {
+                InvoiceDetail detail = new InvoiceDetail
+                {
+                    InvoiceId = invoice.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.Product.Price
+                };
+                _context.InvoiceDetails.Add(detail);
+                _context.Carts.Remove(item);
+
+                item.Product.Stock -= item.Quantity;
+                _context.Products.Update(item.Product);
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
+        private bool CartExists(int id)
+        {
+          return _context.Carts.Any(e => e.Id == id);
+        }
+
+        public IActionResult Add(int productid, int quantity)
+        {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.user = HttpContext.Session.GetString("username");
+            string username = ViewBag.user;
+            //string username = "dhphuoc";
+            var accountid = _context.Accounts.FirstOrDefault(a => a.Username == username).Id;
+            var cart = _context.Carts.Where(c => c.AccountId == accountid && c.ProductId == productid).FirstOrDefault();
+            if (cart != null)
+            {
+                cart.Quantity += quantity;
+                _context.Update(cart);
                 _context.SaveChanges();
             }
             else
             {
                 cart = new Cart
                 {
-                    AccountId = accountId,
-                    ProductId = ProductId,
-                    Quantity = Quantity,
+                    AccountId = accountid,
+                    ProductId = productid,
+                    Quantity = quantity
                 };
                 _context.Carts.Add(cart);
-                
             }
+            //Cart cart = new Cart
+            //{
+            //    AccountId = accountid,
+            //    ProductId = productid,
+            //    Quantity = quantity
+            //};
+            //_context.Carts.Add(cart);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Products");
-        }
-        private bool CartExists(int id)
-        {
-          return _context.Carts.Any(e => e.Id == id);
+            return RedirectToAction("Index", "Carts");
         }
     }
 }

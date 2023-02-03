@@ -22,6 +22,8 @@ namespace Nhom03.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.name = HttpContext.Session.GetString("fullname");
             var nhom03Context = _context.Products.Include(p => p.ProductType);
             return View(await nhom03Context.ToListAsync());
         }
@@ -29,6 +31,8 @@ namespace Nhom03.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("id");
+            ViewBag.name = HttpContext.Session.GetString("fullname");
             if (id == null || _context.Products == null)
             {
                 return NotFound();
@@ -82,7 +86,7 @@ namespace Nhom03.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes, "Id", "Name", product.ProductTypeId);
+            ViewData["ProductTypeId"] = new SelectList(_context.Set<ProductType>(), "Id", "Name", product.ProductTypeId);
             return View(product);
         }
 
@@ -163,6 +167,12 @@ namespace Nhom03.Controllers
         private bool ProductExists(int id)
         {
           return _context.Products.Any(e => e.Id == id);
+        }
+        public IActionResult Search(string name, int minPrice = 0, int maxPrice = int.MaxValue)
+        {
+            var products = _context.Products.Where(p => p.Name.Contains(name))
+                                            .Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+            return View(products);
         }
         public async Task<IActionResult> ProductDetai()
         {
